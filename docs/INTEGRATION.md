@@ -2,6 +2,17 @@
 
 This document describes how a platform signup becomes three onboarding emails, and how opens, clicks and bounces come back to the data team tagged by segment. It is written so a developer can build the service from it. Every SendGrid behaviour below was checked against the current Twilio SendGrid docs (links at the end) on 31 Oct 2026.
 
+**Where each question from the brief is answered**
+
+| Brief question | Section |
+|---|---|
+| Which webhook events, and what payload? | [2. Inbound: the signup webhook](#2-inbound-the-signup-webhook) |
+| Which API endpoint, with a sample call? | [3. Outbound: sending through SendGrid](#3-outbound-sending-through-sendgrid) |
+| How does the payload map to template variables? | [4. Data mapping](#4-data-mapping) |
+| How are opens, clicks and bounces captured per segment? | [5. Tracking and segmentation](#5-tracking-and-segmentation) |
+
+Sections 6 to 9 cover what a production build also needs: duplicate protection, unsubscribes and compliance, configuration, and how the system grows.
+
 ## 1. How it fits together
 
 SendGrid does not listen for our signup event. Our own onboarding service receives the platform webhook, decides what to send and when, and calls the SendGrid Mail Send API. SendGrid's Event Webhook then runs in the opposite direction, posting delivery and engagement events back to us.
