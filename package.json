@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node scripts/build.js",
     "render": "node scripts/build.js && node scripts/render.js",
-    "screenshots": "bash scripts/screenshots.sh"
+    "screenshots": "bash scripts/screenshots.sh",
+    "test": "npm run render && node scripts/check.js"
   },
   "devDependencies": {
     "handlebars": "^4.7.8"

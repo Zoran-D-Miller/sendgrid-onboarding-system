@@ -1,0 +1,34 @@
+# Runs on every push and pull request. A template change can't merge unless:
+#  1. templates/ matches a fresh build of src/ (nobody hand-edited the output
+#     or forgot to rebuild), and
+#  2. every template renders against every fixture and passes scripts/check.js.
+name: Check email templates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Built templates are up to date with src/
+        run: |
+          npm run build
+          git diff --exit-code templates/ || {
+            echo "::error::templates/ is out of date. Run 'npm run build' and commit the result."
+            exit 1
+          }
+
+      - name: Render all fixtures and run checks
+        run: npm test
