@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!--
+  TEMPLATE 3: Industry email - sequence step 3, Day 5
+  SendGrid subject line: set in the template version settings. See
+  docs/INTEGRATION.md for the exact Handlebars subject string.
+
+  NOTE: no Handlebars braces inside HTML comments. SendGrid parses the whole
+  file, comments included.
+
+  Variables used (from dynamic_template_data):
+    first_name    - optional; falls back to "there"
+    company_name  - optional; falls back to generic copy (escaped output)
+    industry      - drives the INDUSTRY MODULE below. Expected values:
+                    "finance" | "retail". Anything else (saas, travel, ...)
+                    or a missing value gets the default module.
+                    Lowercased and trimmed by the signup service, same as
+                    account_type in T2.
+
+  Conditional logic: same nested equals pattern as T2, three outcomes:
+    equals finance  -> finance module
+    else equals retail -> retail module
+    else            -> default module
+
+  CONTENT PLACEHOLDERS: case-study companies are anonymised and the figures
+  are illustrative. Before launch, swap in approved stories from impact.com's
+  case-study library and host images on impact.com's own CDN.
+
+  Structure (same shell as T1/T2):
+    head > preheader > container > header > intro > INDUSTRY MODULE
+    (eyebrow > heading > paragraph > image > result card > CTAs) >
+    sign-off > footer
+-->
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+{{> head}}
+  <title>How brands like yours grow with partners</title>
+</head>
+<body class="bg-page" style="margin: 0; padding: 0; background-color: #FAF4EE; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+  <!-- PREHEADER: varies by industry -->
+  <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all; font-size: 1px; line-height: 1px; color: #FAF4EE; opacity: 0;">
+    {{#equals industry "finance"}}How a digital bank grew funded accounts through compliant partners.{{else}}{{#equals industry "retail"}}How an apparel brand paid partners more for new customers, and grew.{{else}}How brands in every category grow with partners.{{/equals}}{{/equals}}
+    &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+
+  <!-- OUTER WRAPPER -->
+  <table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAF4EE;">
+    <tr>
+      <td align="center" style="padding: 24px 12px;">
+
+        <!--[if mso]>
+        <table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+        <![endif]-->
+
+        <!-- CONTAINER -->
+        <table role="presentation" class="bg-card" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; background-color: #FFFFFF; border-radius: 8px;">
+
+{{> header}}
+
+          <!-- ============ MODULE: intro (all industries) ============ -->
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Hi {{#if first_name}}{{first_name}}{{else}}there{{/if}},
+              </p>
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Partnerships work differently in every industry. Here's one story from a brand that looks a lot like {{#if company_name}}{{company_name}}{{else}}yours{{/if}}, and the setting that made the difference.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============================================================
+               INDUSTRY MODULE: one of three blocks, chosen by industry.
+               Each block: eyebrow > heading > paragraph > image >
+               result card > primary CTA > secondary CTA.
+               Image: width attribute (520) for Outlook, width:100% +
+               height:auto everywhere else so it scales on mobile.
+               ============================================================ -->
+{{#equals industry "finance"}}
+          <!-- ---------- INDUSTRY: finance ---------- -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Financial services</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">Grow funded accounts without compliance surprises</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                In financial services, a partner who makes the wrong claim about your rates is a regulatory problem, not just a brand one. The banks that scale partnerships review partner content before it goes live and pay on funded accounts, not sign-ups.
+              </p>
+              <img src="https://placehold.co/520x220/161414/FAF4EE/png?text=Finance+case+study" width="520" alt="A banking app on a phone next to a comparison website listing savings accounts" style="display: block; width: 100%; max-width: 520px; height: auto; border: 0; border-radius: 8px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 14px; color: #4A4442;">
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <!-- COMPONENT: result card (big number + caption) -->
+              <table role="presentation" class="bg-soft" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAF4EE; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 24px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+                    <p class="text-strong" style="margin: 0 0 4px 0; font-size: 36px; line-height: 42px; font-weight: bold; color: #161414;">38%</p>
+                    <p class="text-body" style="margin: 0; font-size: 15px; line-height: 24px; color: #4A4442;">of new funded accounts came from comparison sites and finance creators in the first year, for a European digital bank. Every partner post went through pre-approval first.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://impact.com/resources/case-studies/?industry=finance&amp;utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t3_finance_casestudy" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Read the full story</a>
+                  </td>
+                </tr>
+              </table>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td height="12" style="height: 12px; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/settings/content-review?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t3_finance_review" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Turn on content review</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{else}}
+{{#equals industry "retail"}}
+          <!-- ---------- INDUSTRY: retail ---------- -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Retail and ecommerce</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">Pay more for new customers, less for repeat orders</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Retail programs leak margin when a coupon site gets full commission on a customer who was already at checkout. Brands that grow profitably split commission by new versus returning customer and give creators the bigger share.
+              </p>
+              <img src="https://placehold.co/520x220/E8DCCD/161414/png?text=Retail+case+study" width="520" alt="A creator filming a try-on video with clothing from an online store" style="display: block; width: 100%; max-width: 520px; height: auto; border: 0; border-radius: 8px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 14px; color: #4A4442;">
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="bg-soft" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAF4EE; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 24px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+                    <p class="text-strong" style="margin: 0 0 4px 0; font-size: 36px; line-height: 42px; font-weight: bold; color: #161414;">2.1x</p>
+                    <p class="text-body" style="margin: 0; font-size: 15px; line-height: 24px; color: #4A4442;">return on partner spend for an apparel brand after moving to new-customer commission rates and adding 40 creators to its program.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://impact.com/resources/case-studies/?industry=retail&amp;utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t3_retail_casestudy" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Read the full story</a>
+                  </td>
+                </tr>
+              </table>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td height="12" style="height: 12px; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/programs/commission?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t3_retail_commission" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Set commission rules</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{else}}
+          <!-- ---------- INDUSTRY: default (any other or missing industry) ---------- -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Customer stories</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">See what's working in your category</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Across categories, the programs that grow fastest have two things in common: clear commission rules from day one and a mix of partner types, not just coupon sites.
+              </p>
+              <img src="https://placehold.co/520x220/FAF4EE/161414/png?text=Customer+stories" width="520" alt="A grid of logos from brands that run partner programs" style="display: block; width: 100%; max-width: 520px; height: auto; border: 0; border-radius: 8px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 14px; color: #4A4442;">
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://impact.com/resources/case-studies/?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t3_default_casestudies" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Browse customer stories</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{/equals}}
+{{/equals}}
+          <!-- /INDUSTRY MODULE -->
+
+          <!-- ============ MODULE: sign-off (all industries) ============ -->
+          <tr>
+            <td class="px" style="padding: 40px 40px 32px 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Want help applying this to your program? Reply to this email and the onboarding team will set up a call.
+              </p>
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                The impact.com onboarding team
+              </p>
+            </td>
+          </tr>
+
+{{> footer}}
+
+        </table>
+        <!-- /CONTAINER -->
+
+        <!--[if mso]>
+        </td></tr></table>
+        <![endif]-->
+
+      </td>
+    </tr>
+  </table>
+  <!-- /OUTER WRAPPER -->
+
+  <!-- OPEN TRACKING: SendGrid inserts its own pixel at send time (see T1). -->
+</body>
+</html>
