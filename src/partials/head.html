@@ -24,6 +24,20 @@
     </xml>
   </noscript>
   <![endif]-->
+  <!-- Brand font: Lexend (impact.com's body font) from Google Fonts.
+       Loads in Apple Mail / iOS Mail; Gmail and most others fall back to
+       Arial via the inline font stack. Hidden from Outlook desktop, which
+       does not load web fonts. -->
+  <!--[if !mso]><!-->
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&amp;display=swap" rel="stylesheet">
+  <!--<![endif]-->
+  <!-- Outlook desktop skips the rest of a font stack when the first font
+       is a web font it lacks and shows Times New Roman instead. Force Arial. -->
+  <!--[if mso]>
+  <style>
+    body, table, td, p, a, h1, h2 { font-family: Arial, Helvetica, sans-serif !important; }
+  </style>
+  <![endif]-->
   <style>
     /* Reset client quirks that inline styles cannot reach. */
     body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
@@ -40,12 +54,16 @@
     }
 
     /* Dark mode (Apple Mail, iOS Mail, Outlook.com honour this). */
+    /* Warm near-black tones keep the impact.com feel; the dark button
+       outline is flipped to light so it stays visible. */
     @media (prefers-color-scheme: dark) {
-      .bg-page { background-color: #111318 !important; }
-      .bg-card { background-color: #1C1F26 !important; }
-      .text-strong { color: #F3F4F6 !important; }
-      .text-body { color: #D1D5DB !important; }
-      .text-muted { color: #9CA3AF !important; }
-      .border { border-color: #2D313A !important; }
+      .bg-page { background-color: #161414 !important; }
+      .bg-card { background-color: #221F1E !important; }
+      .text-strong { color: #FAF4EE !important; }
+      .text-body { color: #D9D2CC !important; }
+      .text-muted { color: #A8A09B !important; }
+      .border { border-color: #3A3533 !important; }
+      .btn-outline { border-color: #FAF4EE !important; }
+      .btn-outline-text { color: #FAF4EE !important; }
     }
   </style>

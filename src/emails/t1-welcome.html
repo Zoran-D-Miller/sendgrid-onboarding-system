@@ -28,17 +28,17 @@
 {{> head}}
   <title>Welcome to impact.com</title>
 </head>
-<body class="bg-page" style="margin: 0; padding: 0; background-color: #F3F4F6; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+<body class="bg-page" style="margin: 0; padding: 0; background-color: #FAF4EE; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
 
   <!-- PREHEADER: inbox preview text. Hidden in the body; the trailing
        &zwnj;&nbsp; run stops clients pulling body copy into the preview. -->
-  <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all; font-size: 1px; line-height: 1px; color: #F3F4F6; opacity: 0;">
+  <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all; font-size: 1px; line-height: 1px; color: #FAF4EE; opacity: 0;">
     Three setup steps between you and your first partner.
     &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
   </div>
 
   <!-- OUTER WRAPPER: full-width page background -->
-  <table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F3F4F6;">
+  <table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAF4EE;">
     <tr>
       <td align="center" style="padding: 24px 12px;">
 
@@ -53,14 +53,14 @@
 
           <!-- ============ MODULE: hero ============ -->
           <tr>
-            <td class="px" style="padding: 24px 40px 8px 40px; font-family: Arial, Helvetica, sans-serif;">
-              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #111827;">
+            <td class="px" style="padding: 24px 40px 8px 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">
                 Your partnership program starts here
               </h1>
-              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #374151;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 Hi {{#if first_name}}{{first_name}}{{else}}there{{/if}},
               </p>
-              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #374151;">
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 {{#if company_name}}The {{company_name}} account{{else}}Your account{{/if}} on impact.com is ready.
                 Affiliates, creators and B2B partners can find you once three things are in place.
                 Here they are, in the order most brands do them.
@@ -72,22 +72,25 @@
                Each step = number + title + one sentence + one CTA button.
                Buttons are "bulletproof": the colour sits on the <td> (bgcolor
                attribute for Outlook) and the padding on the <a>, so the button
-               still shows with images off. Step 1 is the filled primary CTA;
-               steps 2-3 are outlined so the eye lands on step 1 first.
+               still shows with images off. Step 1 is the filled brand-red
+               primary CTA; steps 2-3 are dark outlines, so red appears once
+               and the eye lands on step 1 first. Pill radius matches
+               impact.com's buttons; Outlook ignores border-radius and shows
+               square corners, which is an acceptable fallback.
                UTM utm_content values identify the exact button in analytics. -->
 
           <!-- Step 1: brand profile (primary CTA) -->
           <tr>
-            <td class="px" style="padding: 32px 40px 0 40px; font-family: Arial, Helvetica, sans-serif;">
-              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #1A56DB;">Step 1</p>
-              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #111827;">Complete your brand profile</h2>
-              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #374151;">
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Step 1</p>
+              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #161414;">Complete your brand profile</h2>
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 Partners read your profile before they apply to your program. Add your logo, a short description and the regions you sell in.
               </p>
               <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="center" bgcolor="#1A56DB" style="border-radius: 6px; background-color: #1A56DB;">
-                    <a class="btn-link" href="https://app.impact.com/onboarding/profile?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step1_profile" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 6px;">Complete your profile</a>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://app.impact.com/onboarding/profile?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step1_profile" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Complete your profile</a>
                   </td>
                 </tr>
               </table>
@@ -96,16 +99,16 @@
 
           <!-- Step 2: conversion tracking (secondary CTA) -->
           <tr>
-            <td class="px" style="padding: 32px 40px 0 40px; font-family: Arial, Helvetica, sans-serif;">
-              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #1A56DB;">Step 2</p>
-              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #111827;">Set up conversion tracking</h2>
-              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #374151;">
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Step 2</p>
+              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #161414;">Set up conversion tracking</h2>
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 Partners are paid on tracked conversions, so connect your site before you invite anyone. No tracking means no attribution.
               </p>
               <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="center" style="border-radius: 6px; border: 2px solid #1A56DB;">
-                    <a class="btn-link" href="https://app.impact.com/onboarding/tracking?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step2_tracking" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #1A56DB; text-decoration: none; border-radius: 6px;">Set up tracking</a>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/onboarding/tracking?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step2_tracking" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Set up tracking</a>
                   </td>
                 </tr>
               </table>
@@ -114,16 +117,16 @@
 
           <!-- Step 3: invite team (secondary CTA) -->
           <tr>
-            <td class="px" style="padding: 32px 40px 0 40px; font-family: Arial, Helvetica, sans-serif;">
-              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #1A56DB;">Step 3</p>
-              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #111827;">Invite your team</h2>
-              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #374151;">
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-muted" style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Step 3</p>
+              <h2 class="text-strong" style="margin: 0 0 8px 0; font-size: 20px; line-height: 28px; font-weight: bold; color: #161414;">Invite your team</h2>
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 Add the people who will handle partner contracts, payouts and messages, so nothing waits on one inbox.
               </p>
               <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="center" style="border-radius: 6px; border: 2px solid #1A56DB;">
-                    <a class="btn-link" href="https://app.impact.com/settings/users?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step3_team" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #1A56DB; text-decoration: none; border-radius: 6px;">Invite teammates</a>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/settings/users?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_step3_team" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Invite teammates</a>
                   </td>
                 </tr>
               </table>
@@ -132,11 +135,11 @@
 
           <!-- ============ MODULE: help + sign-off ============ -->
           <tr>
-            <td class="px" style="padding: 40px 40px 32px 40px; font-family: Arial, Helvetica, sans-serif;">
-              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #374151;">
-                Stuck on a step? The <a href="https://help.impact.com/?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_help" target="_blank" style="color: #1A56DB; text-decoration: underline;">Help Center</a> has setup guides, or reply to this email and someone on the onboarding team will answer.
+            <td class="px" style="padding: 40px 40px 32px 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Stuck on a step? The <a href="https://help.impact.com/?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t1_help" target="_blank" style="color: #E81515; text-decoration: underline;">Help Center</a> has setup guides, or reply to this email and someone on the onboarding team will answer.
               </p>
-              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #374151;">
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
                 The impact.com onboarding team
               </p>
             </td>
