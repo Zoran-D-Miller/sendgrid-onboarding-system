@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+  TEMPLATE 2: Account-type email - sequence step 2, Day 2
+  SendGrid subject line: set in the template version settings. See
+  docs/INTEGRATION.md for the exact Handlebars subject string.
+
+  NOTE: no Handlebars braces inside HTML comments. SendGrid parses the whole
+  file, comments included.
+
+  Variables used (from dynamic_template_data):
+    first_name    - optional; falls back to "there"
+    company_name  - optional; falls back to generic copy (escaped output)
+    account_type  - drives the SEGMENT MODULE below. Expected values:
+                    "enterprise" | "startup". Anything else, or a missing
+                    value, gets the default module.
+
+  The comparison is exact and case-sensitive. Our signup service lowercases
+  and trims account_type before calling SendGrid, so "Enterprise " from the
+  webhook still matches. See docs/INTEGRATION.md, data mapping.
+
+  Conditional logic uses SendGrid's equals helper with an else branch,
+  nested once to give three outcomes:
+    equals enterprise  -> enterprise module
+    else equals startup -> startup module
+    else               -> default module
+  Every account_type always gets exactly one module, so no recipient sees
+  an empty email.
+
+  Structure (same shell as T1, so header/footer come from the shared partials):
+    head > preheader > container > header > intro > SEGMENT MODULE >
+    sign-off > footer
+-->
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+{{> head}}
+  <title>Your next steps on impact.com</title>
+</head>
+<body class="bg-page" style="margin: 0; padding: 0; background-color: #FAF4EE; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+  <!-- PREHEADER: varies by segment, so the inbox preview matches the body. -->
+  <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all; font-size: 1px; line-height: 1px; color: #FAF4EE; opacity: 0;">
+    {{#equals account_type "enterprise"}}SSO, approval workflows and a dedicated consultant for your rollout.{{else}}{{#equals account_type "startup"}}Launch a partner program this week with a ready-made template.{{else}}The setup steps that matter most for your program.{{/equals}}{{/equals}}
+    &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+
+  <!-- OUTER WRAPPER -->
+  <table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAF4EE;">
+    <tr>
+      <td align="center" style="padding: 24px 12px;">
+
+        <!--[if mso]>
+        <table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+        <![endif]-->
+
+        <!-- CONTAINER -->
+        <table role="presentation" class="bg-card" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; background-color: #FFFFFF; border-radius: 8px;">
+
+{{> header}}
+
+          <!-- ============ MODULE: intro (all segments) ============ -->
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Hi {{#if first_name}}{{first_name}}{{else}}there{{/if}},
+              </p>
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                You've had a couple of days with impact.com. Here's what to set up next for a team like {{#if company_name}}{{company_name}}{{else}}yours{{/if}}.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============================================================
+               SEGMENT MODULE: one of three blocks, chosen by account_type.
+               Each block uses the same pieces in the same order:
+                 eyebrow > heading > one paragraph > 3 feature rows >
+                 primary CTA > secondary CTA
+               so a new segment (e.g. "agency") is a copy of one block with
+               new copy and links, nothing structural.
+               ============================================================ -->
+{{#equals account_type "enterprise"}}
+          <!-- ---------- SEGMENT: enterprise ---------- -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">For enterprise teams</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">Roll out partnerships across every team</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Large programs stall on access, approvals and handoffs. These three settings remove most of that before your first partner signs.
+              </p>
+
+              <!-- COMPONENT: feature rows (tick + bold lead-in + sentence) -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Single sign-on and user roles.</strong> Connect your identity provider and decide who can sign contracts, approve payouts or only view reports.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Contract templates with approvals.</strong> Set standard terms once so legal reviews the template, not every partner.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">A dedicated partnership consultant.</strong> One named contact who plans the rollout with your team and joins your kickoff call.</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <!-- COMPONENT: primary button -->
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://app.impact.com/onboarding/consultant?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t2_enterprise_consultant" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Book your kickoff call</a>
+                  </td>
+                </tr>
+              </table>
+              <!-- spacer: margin on tables is unreliable in Outlook, so use a fixed-height row -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td height="12" style="height: 12px; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
+              <!-- COMPONENT: secondary button -->
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/settings/sso?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t2_enterprise_sso" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Set up single sign-on</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{else}}
+{{#equals account_type "startup"}}
+          <!-- ---------- SEGMENT: startup ---------- -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">For startups</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">Launch your first program this week</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Small teams don't need a long rollout. Start from a template, find partners who already sell to your customers, and let the platform handle the admin.
+              </p>
+
+              <!-- COMPONENT: feature rows -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Quick-start program template.</strong> Commission rates, terms and a partner sign-up page, pre-filled. Edit what you need and publish.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Partner discovery.</strong> Search creators, publishers and affiliates by category and audience, and invite them in one click.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Automated partner payouts.</strong> Partners get paid on approved conversions without you running spreadsheets at month end.</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://app.impact.com/programs/new?template=quick-start&amp;utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t2_startup_template" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Use the quick-start template</a>
+                  </td>
+                </tr>
+              </table>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td height="12" style="height: 12px; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="btn-outline" align="center" style="border-radius: 999px; border: 2px solid #161414;">
+                    <a class="btn-link btn-outline-text" href="https://app.impact.com/discover?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t2_startup_discover" target="_blank" style="display: inline-block; padding: 12px 26px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #161414; text-decoration: none; border-radius: 999px;">Discover partners</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{else}}
+          <!-- ---------- SEGMENT: default (unknown or missing account_type) ----------
+               Safe, generic next steps. Also logged by the signup service
+               as an unmapped value so the data team can spot new segments. -->
+          <tr>
+            <td class="px" style="padding: 32px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; line-height: 18px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #E81515;">Your next steps</p>
+              <h1 class="h1 text-strong" style="margin: 0 0 16px 0; font-size: 30px; line-height: 38px; font-weight: bold; color: #161414;">Get your first partner live</h1>
+              <p class="text-body" style="margin: 0 0 24px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Whatever the size of your team, these three steps get a program from set up to earning.
+              </p>
+
+              <!-- COMPONENT: feature rows -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Publish your program terms.</strong> Set commission and rules so partners know what they're signing up for.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 16px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Invite your first partners.</strong> Start with five who already know your brand.</td>
+                </tr>
+                <tr>
+                  <td valign="top" width="28" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; font-weight: bold; color: #E81515;">&#10003;</td>
+                  <td valign="top" class="text-body" style="padding: 0 0 8px 0; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 26px; color: #4A4442;"><strong class="text-strong" style="color: #161414;">Check your first report.</strong> Confirm clicks and conversions are coming through before you scale.</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding: 24px 40px 0 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <table role="presentation" class="btn-table" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#E81515" style="border-radius: 999px; background-color: #E81515;">
+                    <a class="btn-link" href="https://app.impact.com/dashboard?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=t2_default_dashboard" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Lexend', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 999px;">Go to your dashboard</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+{{/equals}}
+{{/equals}}
+          <!-- /SEGMENT MODULE -->
+
+          <!-- ============ MODULE: sign-off (all segments) ============ -->
+          <tr>
+            <td class="px" style="padding: 40px 40px 32px 40px; font-family: 'Lexend', Arial, Helvetica, sans-serif;">
+              <p class="text-body" style="margin: 0 0 16px 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                Questions about any of this? Reply to this email and the onboarding team will pick it up.
+              </p>
+              <p class="text-body" style="margin: 0; font-size: 16px; line-height: 26px; color: #4A4442;">
+                The impact.com onboarding team
+              </p>
+            </td>
+          </tr>
+
+{{> footer}}
+
+        </table>
+        <!-- /CONTAINER -->
+
+        <!--[if mso]>
+        </td></tr></table>
+        <![endif]-->
+
+      </td>
+    </tr>
+  </table>
+  <!-- /OUTER WRAPPER -->
+
+  <!-- OPEN TRACKING: SendGrid inserts its own pixel at send time (see T1). -->
+</body>
+</html>
