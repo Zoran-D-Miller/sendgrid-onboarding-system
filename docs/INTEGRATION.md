@@ -49,8 +49,8 @@ One event: `user.signed_up`, fired by the platform after the account row is comm
   "occurred_at": "2026-10-31T09:14:00Z",
   "data": {
     "user_id": "usr_10482",
-    "email": "dana.okafor@example.com",
-    "first_name": "Dana",
+    "email": "zoran.miller@example.com",
+    "first_name": "Zoran",
     "account_type": "enterprise",
     "signup_date": "2026-10-31T09:14:00Z",
     "company_name": "Northwind Bank",
@@ -131,9 +131,9 @@ curl --request POST \
     "template_id": "d-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "personalizations": [
       {
-        "to": [{ "email": "dana.okafor@example.com", "name": "Dana" }],
+        "to": [{ "email": "zoran.miller@example.com", "name": "Zoran" }],
         "dynamic_template_data": {
-          "first_name": "Dana",
+          "first_name": "Zoran",
           "company_name": "Northwind Bank",
           "account_type": "enterprise",
           "industry": "finance"
@@ -213,9 +213,9 @@ Two deliberate choices:
 {
   "personalizations": [
     {
-      "to": [{ "email": "dana.okafor@example.com", "name": "Dana" }],
+      "to": [{ "email": "zoran.miller@example.com", "name": "Zoran" }],
       "dynamic_template_data": {
-        "first_name": "Dana",
+        "first_name": "Zoran",
         "company_name": "Northwind Bank",
         "account_type": "enterprise",
         "industry": "finance"
@@ -264,7 +264,7 @@ SendGrid posts a JSON array of events. A `bounce` event for our T2 send looks li
 ```json
 [
   {
-    "email": "dana.okafor@example.com",
+    "email": "zoran.miller@example.com",
     "timestamp": 1793438100,
     "event": "bounce",
     "type": "bounce",

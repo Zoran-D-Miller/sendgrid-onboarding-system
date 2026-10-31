@@ -19,7 +19,7 @@ const GMAIL_CLIP_BYTES = 102 * 1024;
 
 // What each fixture must produce. If a branch or fallback breaks, this fails.
 const EXPECT = {
-  "enterprise-finance": { greeting: "Hi Dana,", t2: "For enterprise teams", t3: "Financial services" },
+  "enterprise-finance": { greeting: "Hi Zoran,", t2: "For enterprise teams", t3: "Financial services" },
   "startup-retail": { greeting: "Hi Sam,", t2: "For startups", t3: "Retail and ecommerce" },
   "edge-missing-and-unsafe": { greeting: "Hi there,", t2: "Your next steps</p>", t3: "Customer stories</p>" },
 };
