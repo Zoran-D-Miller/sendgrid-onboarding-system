@@ -1,0 +1,23 @@
+# Assessment brief stays private: never commit the PDF or its text.
+*.pdf
+brief*.txt
+
+# Personal working notes for the AI assistant (interview notes, personal context).
+CLAUDE.md
+.claude/
+
+# Secrets. Commit .env.example only.
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+dist/
+.vercel/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
