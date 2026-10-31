@@ -370,9 +370,27 @@ The `sends` table has a unique constraint on this key. On a duplicate signup web
 
 ## 9. Adding emails and segments later
 
-- **A new email:** add `src/emails/t4-*.html`, run `npm run build`, upload as a new dynamic template, add its ID and a `template_key` row to the schedule. Shared header and footer come in automatically.
+- **A new email:** add `src/emails/t4-*.html` and one entry in `src/templates.config.json` (name, subject, sequence step, delay). `npm run deploy` creates the SendGrid template. Shared header and footer come in automatically.
 - **A new segment** (e.g. `account_type: "agency"` or publishers): copy one block inside the existing `equals` chain and change the copy. Unknown values already fall back safely, so the data can arrive before the content does.
-- **Template changes** go through git: edit the source, rebuild, review the diff, then paste into a new SendGrid template version. The SendGrid version history and the git history then tell the same story.
+- **Template changes** go through git, never the SendGrid UI: edit the source, open a pull request (CI runs `npm test`), merge, then `npm run deploy`. Each deploy adds a new active version named after the commit (`git-ffc880a`), so SendGrid's version history and git history match. A version deployed from uncommitted work is named `-dirty`, so it can't pass for a reviewed release.
+
+## 10. Validated against the real SendGrid API
+
+The mapping in section 4 is code ([src/service/build-mail.js](../src/service/build-mail.js)), not just a description. Two scripts ran it against a SendGrid account on 31 Oct 2026:
+
+- `npm run deploy` created the "Onboarding" unsubscribe group and published all three templates, each with its subject and an auto-generated plain-text part.
+- `npm run sandbox` sent every template with every fixture, plus eight error cases, through `POST /v3/mail/send` with `sandbox_mode` on. Full results and the exact request are in [docs/evidence/sandbox-run.md](evidence/sandbox-run.md).
+
+| Result | Detail |
+|---|---|
+| 9 of 9 real sends valid | Every template x fixture returned `200` (sandbox's version of `202`) |
+| 6 of 8 error cases as expected | Bad key `401`; unknown template, no recipients, 11 categories and `send_at` past 72 hours all `400`; missing email stopped by our own validation before any call |
+| 2 surprises | Sandbox accepted an **unverified `from` address** and a **number in `custom_args`** |
+
+The two surprises change the test plan:
+
+- **Sandbox does not check sender identity.** A sandbox pass does not prove a real send will be accepted. Before launch, one real send per template from the production sending domain is still required (see the QA checklist).
+- **Sandbox does not enforce string `custom_args`.** The docs require strings, and production behaviour may differ, so the mapping code converts every value to a string and `check-mapping.js` tests it. We don't rely on SendGrid to catch it.
 
 ## Sources
 

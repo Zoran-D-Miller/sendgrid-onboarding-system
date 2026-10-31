@@ -1,0 +1,117 @@
+// Real Mail Send calls in sandbox mode: SendGrid validates the full request
+// and returns 200, but delivers nothing, generates no events and uses no credits.
+//
+// 1. Happy path: every template x every fixture, built by the same
+//    src/service/build-mail.js the service would use.
+// 2. Error cases: what SendGrid (and our own validation) does with bad input.
+//
+// Writes docs/evidence/sandbox-run.md. The API key is never written out.
+// Usage: npm run sandbox
+
+const fs = require("fs");
+const path = require("path");
+const { loadEnv, requireEnv, api, findDynamicTemplate, findAsmGroup } = require("./lib/sendgrid");
+const { buildMailSendBody, ValidationError } = require("../src/service/build-mail");
+const templates = require("../src/templates.config.json");
+
+const ROOT = path.join(__dirname, "..");
+const OUT = path.join(ROOT, "docs", "evidence", "sandbox-run.md");
+const fixtures = fs.readdirSync(path.join(ROOT, "fixtures")).filter((f) => f.endsWith(".json")).sort();
+const readFixture = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, "fixtures", f), "utf8"));
+
+const rows = [];
+function record(name, expected, actual, note = "") {
+  const pass = expected.includes(actual);
+  rows.push({ name, expected: expected.join(" or "), actual, pass, note });
+  console.log(`${pass ? "PASS" : "FAIL"}  ${name}: expected ${expected.join("/")}, got ${actual}${note ? `  ${note}` : ""}`);
+}
+const errorText = (data) => (data && data.errors ? data.errors.map((e) => e.message).join("; ") : "");
+
+async function main() {
+  loadEnv();
+  requireEnv("SENDGRID_API_KEY", "SENDGRID_FROM_EMAIL");
+
+  // IDs come from .env if set, otherwise looked up by the names deploy uses.
+  const ids = {};
+  for (const t of templates) {
+    const envId = process.env[`SENDGRID_TEMPLATE_${t.key.slice(0, 2).toUpperCase()}`];
+    ids[t.key] = envId || (await findDynamicTemplate(t.name))?.id;
+    if (!ids[t.key]) throw new Error(`Template "${t.name}" not found. Run npm run deploy first.`);
+  }
+  const asmGroupId = process.env.SENDGRID_ASM_GROUP_ONBOARDING || (await findAsmGroup("Onboarding"))?.id;
+  if (!asmGroupId) throw new Error('Unsubscribe group "Onboarding" not found. Run npm run deploy first.');
+
+  const settings = (key) => ({ templateId: ids[key], asmGroupId, fromEmail: process.env.SENDGRID_FROM_EMAIL, sandbox: true });
+  let sampleRequest = null;
+
+  // ---------- 1. Happy path ----------
+  for (const t of templates) {
+    for (const f of fixtures) {
+      const body = buildMailSendBody(readFixture(f), t, settings(t.key));
+      if (t.key === "t2_account_type" && f === "enterprise-finance.json") sampleRequest = body;
+      const res = await api("POST", "/mail/send", body);
+      record(`${t.key} x ${f.replace(".json", "")}`, [200], res.status, errorText(res.data));
+    }
+  }
+
+  // ---------- 2. Error cases ----------
+  const good = () => buildMailSendBody(readFixture("enterprise-finance.json"), templates[1], settings("t2_account_type"));
+
+  // Caught by our validation, so SendGrid is never called.
+  try {
+    buildMailSendBody({ ...readFixture("enterprise-finance.json"), email: "" }, templates[0], settings("t1_welcome"));
+    record("missing email (our validation)", ["rejected"], "accepted");
+  } catch (err) {
+    record("missing email (our validation)", ["rejected"], err instanceof ValidationError ? "rejected" : "crashed", err.message);
+  }
+
+  const cases = [
+    ["invalid API key", (b) => b, [401], "SG.invalid-key-for-testing"],
+    ["template_id that does not exist", (b) => ({ ...b, template_id: "d-00000000000000000000000000000000" }), [400]],
+    ["no recipients", (b) => ({ ...b, personalizations: [{ ...b.personalizations[0], to: [] }] }), [400]],
+    ["custom_args value not a string", (b) => ({ ...b, personalizations: [{ ...b.personalizations[0], custom_args: { sequence_step: 2 } }] }), [400]],
+    ["11 categories (limit is 10)", (b) => ({ ...b, categories: Array.from({ length: 11 }, (_, i) => `c${i}`) }), [400]],
+    ["send_at more than 72 hours ahead", (b) => ({ ...b, send_at: Math.floor(Date.now() / 1000) + 5 * 86400 }), [400]],
+    ["from address not a verified sender", (b) => ({ ...b, from: { email: "noreply@unverified-sender-test.com" } }), [403]],
+  ];
+  for (const [name, mutate, expected, key] of cases) {
+    const res = await api("POST", "/mail/send", mutate(good()), key);
+    record(name, expected, res.status, errorText(res.data));
+  }
+
+  writeEvidence(sampleRequest);
+  const failed = rows.filter((r) => !r.pass).length;
+  console.log(failed ? `\n${failed} result(s) differed from expectation (see evidence file)` : "\nAll results matched expectations");
+}
+
+function writeEvidence(sampleRequest) {
+  const table = rows
+    .map((r) => `| ${r.name} | ${r.expected} | ${r.actual} | ${r.pass ? "as expected" : "**differs**"} | ${r.note.replace(/\|/g, "/")} |`)
+    .join("\n");
+  const md = `# Sandbox run: real SendGrid API calls
+
+Generated by \`npm run sandbox\` (scripts/send-sandbox.js) on ${new Date().toISOString()}.
+
+Every request went to \`POST https://api.sendgrid.com/v3/mail/send\` with \`mail_settings.sandbox_mode.enable = true\`. SendGrid validates the request and returns \`200\` instead of \`202\`; nothing is delivered and no events are generated. Templates were published to the account first with \`npm run deploy\`, so the \`template_id\`s are real.
+
+| Case | Expected | Actual | Result | SendGrid message |
+|---|---|---|---|---|
+${table}
+
+## Sample request (T2, enterprise-finance fixture)
+
+Headers: \`Authorization: Bearer <restricted API key, redacted>\`, \`Content-Type: application/json\`
+
+\`\`\`json
+${JSON.stringify(sampleRequest, null, 2)}
+\`\`\`
+`;
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, md);
+  console.log(`\nWrote ${path.relative(ROOT, OUT)}`);
+}
+
+main().catch((err) => {
+  console.error(err.message);
+  process.exit(1);
+});
