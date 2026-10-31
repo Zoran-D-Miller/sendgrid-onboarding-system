@@ -1,0 +1,26 @@
+[
+  {
+    "key": "t1_welcome",
+    "file": "t1-welcome.html",
+    "name": "Onboarding T1 Welcome",
+    "sequence_step": 1,
+    "send_after_days": 0,
+    "subject": "Welcome to impact.com{{#if first_name}}, {{first_name}}{{/if}}"
+  },
+  {
+    "key": "t2_account_type",
+    "file": "t2-account-type.html",
+    "name": "Onboarding T2 Account Type",
+    "sequence_step": 2,
+    "send_after_days": 2,
+    "subject": "{{#equals account_type \"enterprise\"}}Set up impact.com for your whole team{{else}}{{#equals account_type \"startup\"}}Launch your partner program this week{{else}}Your next steps on impact.com{{/equals}}{{/equals}}"
+  },
+  {
+    "key": "t3_industry",
+    "file": "t3-industry.html",
+    "name": "Onboarding T3 Industry",
+    "sequence_step": 3,
+    "send_after_days": 5,
+    "subject": "{{#equals industry \"finance\"}}How a digital bank grew with compliant partners{{else}}{{#equals industry \"retail\"}}Pay partners more for new customers{{else}}How brands like yours grow with partners{{/equals}}{{/equals}}"
+  }
+]

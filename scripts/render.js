@@ -5,31 +5,16 @@
 // produce the same HTML locally: templates/*.html x fixtures/*.json ->
 // previews/<template>--<fixture>.html.
 //
-// handlebars.js does not ship SendGrid's custom helpers, so `equals` and
-// `notEquals` are shimmed below to match SendGrid's documented behaviour
-// (loose comparison: SendGrid treats 3 and "3" as equal).
-//
-// This is a preview, not proof: the final check is SendGrid's own editor
-// preview with the same fixture pasted in as test data (see docs/QA_CHECKLIST.md).
+// SendGrid's equals/notEquals helpers are shimmed in scripts/lib/handlebars.js.
 
 const fs = require("fs");
 const path = require("path");
-const Handlebars = require("handlebars");
+const Handlebars = require("./lib/handlebars");
 
 const ROOT = path.join(__dirname, "..");
 const TEMPLATES_DIR = path.join(ROOT, "templates");
 const FIXTURES_DIR = path.join(ROOT, "fixtures");
 const OUT_DIR = path.join(ROOT, "previews");
-
-Handlebars.registerHelper("equals", function (a, b, options) {
-  // eslint-disable-next-line eqeqeq
-  return a == b ? options.fn(this) : options.inverse(this);
-});
-
-Handlebars.registerHelper("notEquals", function (a, b, options) {
-  // eslint-disable-next-line eqeqeq
-  return a != b ? options.fn(this) : options.inverse(this);
-});
 
 const list = (dir, ext) => fs.readdirSync(dir).filter((f) => f.endsWith(ext)).sort();
 
