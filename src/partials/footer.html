@@ -1,0 +1,40 @@
+          <!-- ============================================================
+               SHARED MODULE: footer
+               - Social links are TEXT, not icon images: they survive image
+                 blocking and need no hosted assets.
+               - Unsubscribe uses SendGrid's ASM substitution tags. They only
+                 render when the API request includes "asm": {"group_id": ...}
+                 at the TOP level of the request body (not inside
+                 personalizations). Group = "Onboarding", separate from
+                 marketing, so a marketing opt-out does not block setup emails
+                 but an onboarding opt-out is still honoured.
+               - Physical address is required by CAN-SPAM and expected under
+                 POPIA / Gmail-Yahoo bulk sender rules. Confirm with legal.
+               ============================================================ -->
+          <tr>
+            <td class="px border" style="padding: 32px 40px 0 40px; border-top: 1px solid #E5E7EB;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="text-muted" style="padding-bottom: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px; color: #6B7280;">
+                    <a href="https://www.linkedin.com/company/impact-com/" target="_blank" style="color: #1A56DB; text-decoration: underline;">LinkedIn</a>
+                    &nbsp;&middot;&nbsp;
+                    <a href="https://x.com/impactdotcom" target="_blank" style="color: #1A56DB; text-decoration: underline;">X</a>
+                    &nbsp;&middot;&nbsp;
+                    <a href="https://www.youtube.com/@impactdotcom" target="_blank" style="color: #1A56DB; text-decoration: underline;">YouTube</a>
+                    &nbsp;&middot;&nbsp;
+                    <a href="https://impact.com/blog/?utm_source=sendgrid&amp;utm_medium=email&amp;utm_campaign=onboarding&amp;utm_content=footer_blog" target="_blank" style="color: #1A56DB; text-decoration: underline;">Blog</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-muted" style="padding-bottom: 32px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 18px; color: #6B7280;">
+                    You're receiving this because you created an impact.com account. These emails help you finish setting up.<br>
+                    <a href="<%asm_group_unsubscribe_raw_url%>" target="_blank" style="color: #6B7280; text-decoration: underline;">Unsubscribe from onboarding emails</a>
+                    &nbsp;&middot;&nbsp;
+                    <a href="<%asm_preferences_raw_url%>" target="_blank" style="color: #6B7280; text-decoration: underline;">Email preferences</a>
+                    <br><br>
+                    impact.com &middot; 223 E. De La Guerra St, Santa Barbara, CA 93101, USA
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>

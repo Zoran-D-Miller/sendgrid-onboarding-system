@@ -21,3 +21,6 @@ dist/
 Thumbs.db
 .vscode/
 *.log
+
+# Local render output (regenerate with npm run render)
+previews/

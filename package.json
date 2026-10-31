@@ -1,0 +1,13 @@
+{
+  "name": "sendgrid-onboarding-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Segment-aware onboarding email series for SendGrid dynamic templates, triggered by a platform signup webhook.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "render": "node scripts/build.js && node scripts/render.js"
+  },
+  "devDependencies": {
+    "handlebars": "^4.7.8"
+  }
+}
