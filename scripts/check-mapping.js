@@ -126,5 +126,11 @@ for (const [name, expected] of Object.entries(SUBJECTS)) {
   }
 }
 
+// A subject is plain text, so HTML escaping would show &#x27; to the reader.
+test("subject keeps an apostrophe and ampersand in a first name", () => {
+  const t1 = templates.find((t) => t.key === "t1_welcome");
+  assert.equal(Handlebars.compile(t1.subject)({ first_name: "D'Angelo & Co" }), "Welcome to impact.com, D'Angelo & Co");
+});
+
 console.log(failures ? `\n${failures} mapping check(s) failed` : "\nAll mapping checks passed");
 process.exit(failures ? 1 : 0);

@@ -5,7 +5,7 @@
     "name": "Onboarding T1 Welcome",
     "sequence_step": 1,
     "send_after_days": 0,
-    "subject": "Welcome to impact.com{{#if first_name}}, {{first_name}}{{/if}}"
+    "subject": "Welcome to impact.com{{#if first_name}}, {{{first_name}}}{{/if}}"
   },
   {
     "key": "t2_account_type",

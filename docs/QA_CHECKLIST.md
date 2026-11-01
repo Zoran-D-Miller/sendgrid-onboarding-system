@@ -17,7 +17,7 @@ Each layer catches something the one before it can't.
 
 | Layer | What it proves | Run so far |
 |---|---|---|
-| 1. `npm test` (local + GitHub Actions) | Templates build, every template renders against every fixture, mapping and subjects are right, structural rules hold | 95 checks pass, CI green |
+| 1. `npm test` (local + GitHub Actions) | Templates build, every template renders against every fixture, mapping and subjects are right, structural rules hold | 96 checks pass, CI green |
 | 2. SendGrid editor preview | SendGrid's own Handlebars engine renders the conditionals the same way | Nested `equals`: enterprise / startup / unknown all correct |
 | 3. Sandbox API calls | SendGrid accepts the exact request the service will send | 16 calls (9 sends + 7 error cases), plus 1 bad payload stopped by our own validation ([evidence](evidence/sandbox-run.md)) |
 | 4. Live send to own inbox | Real render, real headers, real unsubscribe, real redirects | 3 emails to a Gmail inbox ([evidence](evidence/live-send.md)) |
@@ -51,6 +51,7 @@ Each layer catches something the one before it can't.
 |---|---|---|---|
 | First name in greeting and T1 subject | Fixtures + live send | "Hi Zoran," / "Welcome to impact.com, Zoran" | AUTO + PASS (live) |
 | Missing or blank first name | Edge fixture (`first_name: ""`), mapping test with `"   "` | "Hi there,", subject without a name, no `to.name` | AUTO |
+| Apostrophe or `&` in a first name, in the T1 subject | Mapping test with `D'Angelo & Co` (local Handlebars) | Shown as typed, no `&#x27;` | AUTO; real inbox PRE-LAUNCH |
 | Company name with `&` or HTML | Edge fixture `Smith & Sons <b>Ltd</b>` | Shown as text, never as markup | AUTO |
 | Subject line per segment | `check-mapping.js` renders all 9 subject x fixture pairs | Matches the table in INTEGRATION.md 3.2 | AUTO + PASS (live, 3 of 9) |
 | Preheader per segment | Live send, inbox list view | Preheader text shows, not "Hi Zoran..." | PASS |
@@ -165,3 +166,5 @@ All of these must be true before the series goes live:
 | Sandbox run | Sandbox accepts an unverified sender and non-string `custom_args` | Real-send step added to launch; strings enforced in code |
 | Live send | `403` until the sender was verified | Sender verified; same check belongs in the launch list |
 | Live send | Spam placement from DMARC failure | Domain authentication marked as a launch blocker |
+| Final stress test | An apostrophe in a first name would show as `&#x27;` in the T1 subject, and INTEGRATION.md wrongly said the issue didn't apply | Triple braces on that one value; doc corrected; check added |
+| Final stress test | The preview site's Desktop view was 600px wide, which triggered the email's phone styles | Preview widened to 640px, matching the desktop screenshots |

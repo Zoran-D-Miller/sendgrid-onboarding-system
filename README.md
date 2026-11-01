@@ -21,7 +21,7 @@ Three onboarding emails for impact.com's platform, sent through SendGrid when a 
 
 | Check | Result |
 |---|---|
-| `npm test` (also runs in GitHub Actions on every push) | 95 checks pass: rendering, conditionals, escaping, links, accessibility basics, Gmail size limit, mapping, subjects |
+| `npm test` (also runs in GitHub Actions on every push) | 96 checks pass: rendering, conditionals, escaping, links, accessibility basics, Gmail size limit, mapping, subjects |
 | Nested conditionals in SendGrid's own editor | All three T2 branches correct |
 | Real Mail Send API calls in sandbox mode | 16 calls plus one payload stopped by our own validation: 9 of 9 sends valid, 6 of 8 error cases as expected, 2 sandbox gaps found and handled |
 | Real sends to my own inbox | Delivered, rendered correctly in Gmail desktop and mobile, one-click unsubscribe headers present, group unsubscribe works. Spam placement traced to DMARC failing on a free-mail test sender. |

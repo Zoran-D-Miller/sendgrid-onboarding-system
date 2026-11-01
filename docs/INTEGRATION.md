@@ -106,11 +106,11 @@ Subject lines are set in each template version's settings in SendGrid and use th
 
 | Template | Subject (Handlebars) |
 |---|---|
-| T1 | `Welcome to impact.com{{#if first_name}}, {{first_name}}{{/if}}` |
+| T1 | `Welcome to impact.com{{#if first_name}}, {{{first_name}}}{{/if}}` |
 | T2 | `{{#equals account_type "enterprise"}}Set up impact.com for your whole team{{else}}{{#equals account_type "startup"}}Launch your partner program this week{{else}}Your next steps on impact.com{{/equals}}{{/equals}}` |
 | T3 | `{{#equals industry "finance"}}How a digital bank grew with compliant partners{{else}}{{#equals industry "retail"}}Pay partners more for new customers{{else}}How brands like yours grow with partners{{/equals}}{{/equals}}` |
 
-SendGrid's docs say to use triple braces for subject-line values that may contain `'`, `"` or `&`. None of the subjects above insert `company_name`, so that issue doesn't come up.
+T1 uses triple braces for `first_name`, as SendGrid's docs recommend for subject-line values that may contain `'`, `"` or `&`. A subject is plain text, so double braces would show the reader `D&#x27;Angelo`. In the email body the value lands in HTML, so it stays on double braces.
 
 ### 3.3 Why the scheduling is ours, not SendGrid's
 
