@@ -103,7 +103,7 @@ ${table}
 Headers: \`Authorization: Bearer <restricted API key, redacted>\`, \`Content-Type: application/json\`
 
 \`\`\`json
-${JSON.stringify(sampleRequest, null, 2)}
+${JSON.stringify(sampleRequest, null, 2).replaceAll(process.env.SENDGRID_FROM_EMAIL, "verified-sender@redacted.example")}
 \`\`\`
 `;
   fs.mkdirSync(path.dirname(OUT), { recursive: true });

@@ -9,6 +9,7 @@
     "screenshots": "bash scripts/screenshots.sh",
     "deploy": "npm run build && node scripts/sendgrid-deploy.js",
     "sandbox": "node scripts/send-sandbox.js",
+    "send-test": "node scripts/send-test.js",
     "test": "npm run render && node scripts/check.js && node scripts/check-mapping.js"
   },
   "devDependencies": {

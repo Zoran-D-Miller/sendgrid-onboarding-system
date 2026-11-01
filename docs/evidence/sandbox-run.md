@@ -31,11 +31,11 @@ Headers: `Authorization: Bearer <restricted API key, redacted>`, `Content-Type: 
 ```json
 {
   "from": {
-    "email": "zoran.d.miller@gmail.com",
+    "email": "verified-sender@redacted.example",
     "name": "impact.com"
   },
   "reply_to": {
-    "email": "zoran.d.miller@gmail.com",
+    "email": "verified-sender@redacted.example",
     "name": "impact.com Onboarding"
   },
   "template_id": "d-ff20d07fe8cb4e729fb4e2543bd4fd7f",
