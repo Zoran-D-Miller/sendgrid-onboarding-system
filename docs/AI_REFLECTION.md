@@ -8,6 +8,6 @@ TODO(Zoran): one sentence in your own words on how you reviewed the AI's work, o
 
 **Where it was wrong.** It put Handlebars braces inside an HTML comment, which SendGrid would have tried to render. It predicted sandbox mode would reject an unverified sender; sandbox accepted it and only a real send caught it. It also invented the case-study figures, which are now marked as placeholders.
 
-**Where not to rely on it.** Outlook and Apple Mail rendering needs Litmus, not a model's opinion. Deliverability needs real headers: my test failed DMARC, which no prompt would have told me. Legal details, customer claims and API keys need a person.
+**Where not to rely on it.** Outlook and Apple Mail rendering has to be tested in Litmus. Deliverability needs real headers: my test failed DMARC, which no prompt would have told me. Legal details, customer claims and API keys need a person.
 
 **How I'd use it next.** Generating edge-case fixtures, reviewing pull requests against our email rules and summarising Litmus results, with `npm test` and a human review between any AI output and a live send.

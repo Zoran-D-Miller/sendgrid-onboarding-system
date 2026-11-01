@@ -337,7 +337,7 @@ SendGrid warns that custom_args and categories may be stored long term and must 
 - **Opens are inflated.** Apple Mail Privacy Protection preloads images, so the open pixel fires whether or not the person read the email. Some corporate mail filters do the same. Open rate is a deliverability signal, not an engagement signal.
 - **Clicks are the primary metric**, measured per button through the `url` field and the `utm_content` value on every link (e.g. `t2_enterprise_consultant`).
 - **Some clicks are bots.** Corporate link scanners click every link within seconds of delivery. Discount clicks that arrive within a few seconds of `delivered` on every link in the email at once.
-- **The real outcome sits in the product.** The UTM parameters let the product team tie a click to "completed profile" or "installed tracking", which is what this series is for.
+- **Product outcomes are what count.** The UTM parameters let the product team tie a click to "completed profile" or "installed tracking", which is what this series is for.
 
 ## 6. Idempotency and retries
 
@@ -376,7 +376,7 @@ The `sends` table has a unique constraint on this key. On a duplicate signup web
 
 ## 10. Validated against the real SendGrid API
 
-The mapping in section 4 is code ([src/service/build-mail.js](../src/service/build-mail.js)), not just a description. Two scripts ran it against a SendGrid account on 31 Oct 2026:
+The mapping in section 4 is implemented in [src/service/build-mail.js](../src/service/build-mail.js). Two scripts ran it against a SendGrid account on 31 Oct 2026:
 
 - `npm run deploy` created the "Onboarding" unsubscribe group and published all three templates, each with its subject and an auto-generated plain-text part.
 - `npm run sandbox` sent every template with every fixture, plus eight error cases, through `POST /v3/mail/send` with `sandbox_mode` on. Full results and the exact request are in [docs/evidence/sandbox-run.md](evidence/sandbox-run.md).

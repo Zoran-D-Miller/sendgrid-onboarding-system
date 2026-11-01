@@ -69,7 +69,7 @@ Each layer catches something the one before it can't.
 |---|---|---|---|
 | T2: enterprise / startup / anything else | 3 fixtures x T2 | Each shows its own block, and only that block | AUTO |
 | T3: finance / retail / anything else | 3 fixtures x T3 | Same | AUTO |
-| Nested `equals` works in SendGrid itself | T2 pasted into SendGrid Code Editor; Test Data set to `enterprise`, `startup`, `agency` | Correct block each time. SendGrid's docs don't cover nesting, so this was checked rather than assumed. | PASS |
+| Nested `equals` works in SendGrid itself | T2 pasted into SendGrid Code Editor; Test Data set to `enterprise`, `startup`, `agency` | Correct block each time. SendGrid's docs don't cover nesting, so it was checked in SendGrid directly. | PASS |
 | Case and whitespace (`" Enterprise "`, `"RETAIL"`) | `check-mapping.js` | Normalised to lowercase before sending, so the right block shows | AUTO |
 | Missing `account_type` / `industry` | `check-mapping.js` | Default block; tracked as `unknown` | AUTO |
 | Unknown values seen in production | Weekly query on `email_events` for `account_type`/`industry` = `unknown` or unmapped | Reviewed with product; new segments get a block | Post-launch |
