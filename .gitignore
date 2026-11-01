@@ -24,3 +24,6 @@ Thumbs.db
 
 # Local render output (regenerate with npm run render)
 previews/
+
+# Built preview site (npm run build:site)
+site-dist/

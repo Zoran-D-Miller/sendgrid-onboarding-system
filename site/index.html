@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onboarding email playground</title>
+  <meta name="description" content="Live preview of a three-step SendGrid onboarding series. Change the signup data and watch the real templates re-render.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <span class="wordmark">Onboarding emails<span class="dot" aria-hidden="true">.</span></span>
+    <nav aria-label="Project links">
+      <a href="https://github.com/Zoran-D-Miller/sendgrid-onboarding-system">Code</a>
+      <a href="https://github.com/Zoran-D-Miller/sendgrid-onboarding-system/blob/main/docs/INTEGRATION.md">Integration</a>
+      <a href="https://github.com/Zoran-D-Miller/sendgrid-onboarding-system/blob/main/docs/QA_CHECKLIST.md">QA</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Three onboarding emails, live</h1>
+      <p>Change the signup below and the same Handlebars templates that are deployed to SendGrid re-render here. Email 2 changes with account type, email 3 with industry.</p>
+    </section>
+
+    <div class="workspace">
+      <form class="controls" id="controls" aria-label="Signup data">
+        <fieldset>
+          <legend>Email</legend>
+          <div class="pills" id="template-pills"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Account type</legend>
+          <div class="pills">
+            <label><input type="radio" name="account_type" value="enterprise"><span>Enterprise</span></label>
+            <label><input type="radio" name="account_type" value="startup"><span>Startup</span></label>
+            <label><input type="radio" name="account_type" value="agency"><span>Other</span></label>
+            <label><input type="radio" name="account_type" value=""><span>Missing</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Industry</legend>
+          <div class="pills">
+            <label><input type="radio" name="industry" value="finance"><span>Finance</span></label>
+            <label><input type="radio" name="industry" value="retail"><span>Retail</span></label>
+            <label><input type="radio" name="industry" value="travel"><span>Other</span></label>
+            <label><input type="radio" name="industry" value=""><span>Missing</span></label>
+          </div>
+        </fieldset>
+
+        <label class="field">First name
+          <input type="text" name="first_name" autocomplete="off" placeholder="Leave empty to test the fallback">
+        </label>
+        <label class="field">Company
+          <input type="text" name="company_name" autocomplete="off" placeholder="Try Smith &amp; Sons &lt;b&gt;Ltd&lt;/b&gt;">
+        </label>
+
+        <fieldset>
+          <legend>Sample signups</legend>
+          <div class="pills" id="presets"></div>
+        </fieldset>
+      </form>
+
+      <section class="preview" aria-labelledby="preview-title">
+        <h2 id="preview-title" class="visually-hidden">Rendered email</h2>
+        <div class="inbox" aria-live="polite">
+          <p class="from">impact.com</p>
+          <p class="subject" id="subject"></p>
+          <p class="preheader" id="preheader"></p>
+        </div>
+
+        <div class="frame-tools">
+          <p class="branch" id="branch"></p>
+          <div class="pills small" role="radiogroup" aria-label="Preview width">
+            <label><input type="radio" name="width" value="600" form="controls" checked><span>Desktop</span></label>
+            <label><input type="radio" name="width" value="375" form="controls"><span>Phone</span></label>
+          </div>
+        </div>
+
+        <div class="stage">
+          <!-- sandbox without allow-scripts: the email can't run code; same-origin only so the frame can be sized to its content -->
+          <iframe id="email" title="Rendered email" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+        <noscript><p>This preview needs JavaScript. Static renders are in the <a href="https://github.com/Zoran-D-Miller/sendgrid-onboarding-system/tree/main/docs/screenshots">screenshots folder</a>.</p></noscript>
+      </section>
+
+      <section class="payload" aria-labelledby="payload-title">
+        <h2 id="payload-title">What the service sends SendGrid</h2>
+        <p>The webhook payload after validation and normalisation: lowercase segment values, blanks dropped so the template's fallbacks apply, no personal data in <code>custom_args</code>.</p>
+        <pre><code id="json"></code></pre>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p class="name">Zoran Miller</p>
+    <p>A take-home project for impact.com's Growth Enablement Developer role, not an impact.com product. Logo, images, links and case-study figures are placeholders. Unsubscribe links are filled in by SendGrid at send time.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -32,3 +32,6 @@ jobs:
 
       - name: Render all fixtures and run checks
         run: npm test
+
+      - name: Preview site builds
+        run: npm run build:site
