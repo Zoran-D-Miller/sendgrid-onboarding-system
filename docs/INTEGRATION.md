@@ -392,6 +392,8 @@ The two surprises change the test plan:
 - **Sandbox does not check sender identity.** A sandbox pass does not prove a real send will be accepted. Before launch, one real send per template from the production sending domain is still required (see the QA checklist).
 - **Sandbox does not enforce string `custom_args`.** The docs require strings, and production behaviour may differ, so the mapping code converts every value to a string and `check-mapping.js` tests it. We don't rely on SendGrid to catch it.
 
+A real send of each template to our own inbox (`npm run send-test`, [evidence](evidence/live-send.md)) then confirmed what sandbox can't: SendGrid rejected the sender with `403` until it was verified; after that all three were delivered, rendered correctly in Gmail on desktop and mobile, carried one-click `List-Unsubscribe` headers, and the footer unsubscribe suppressed the address for the Onboarding group only. The messages landed in spam because DMARC failed on the free gmail.com sender, which is the case for domain authentication made in section 7. Details are in the [QA checklist](QA_CHECKLIST.md).
+
 ## Sources
 
 - [Mail Send API reference](https://www.twilio.com/docs/sendgrid/api-reference/mail-send/mail-send): 202 response, `custom_args` and category limits, 72-hour `send_at` limit, top-level `asm`
