@@ -2,7 +2,7 @@
 
 Three onboarding emails for impact.com's platform, sent through SendGrid when a user signs up. The second email changes by `account_type` and the third by `industry`. Built for the Growth Enablement Developer take-home.
 
-**Live preview:** TODO: add Vercel URL · **Walkthrough video:** TODO: add Loom URL
+**Live preview:** [sendgrid-onboarding-system.vercel.app](https://sendgrid-onboarding-system.vercel.app) (change the signup and watch the real templates re-render) · **Walkthrough video:** TODO: add Loom URL
 
 ![T2 rendered for an enterprise account in the finance industry](docs/screenshots/t2-account-type--enterprise-finance--desktop.png)
 
