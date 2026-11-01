@@ -4,8 +4,6 @@ Three onboarding emails for impact.com's platform, sent through SendGrid when a 
 
 **Live preview:** [sendgrid-onboarding-system.vercel.app](https://sendgrid-onboarding-system.vercel.app) (change the signup and watch the real templates re-render)
 
-![T2 rendered for an enterprise account in the finance industry](docs/screenshots/t2-account-type--enterprise-finance--desktop.png)
-
 ## Start here if you don't work in code
 
 You don't need a GitHub account or any setup. This takes about 5 minutes:
@@ -29,6 +27,8 @@ You don't need a GitHub account or any setup. This takes about 5 minutes:
 | Confirm the logo, images, links, case-study figures, footer address and sender addresses | Design and product | These are placeholders for now |
 
 The rest of this page is the technical detail.
+
+![T2 rendered for an enterprise account in the finance industry](docs/screenshots/t2-account-type--enterprise-finance--desktop.png)
 
 ## Deliverables
 
