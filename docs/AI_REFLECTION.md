@@ -1,6 +1,6 @@
 # AI reflection
 
-**Where I used AI.** Claude Code was my pair programmer. It wrote first drafts of the templates, the build and test scripts and these docs, and it searched SendGrid's documentation as we worked. Before that, I used Claude.ai to turn my interview notes into a project brief, and Google to read the SendGrid docs myself. I set the direction, challenged the output with questions from my own experience, and approved each decision: segment-aware templates, impact.com's brand, scheduling outside SendGrid, a separate unsubscribe group.
+**Where I used AI.** Claude Code was my pair programmer. It wrote first drafts of the templates, the build and test scripts and these docs, and it searched SendGrid's documentation as we worked. Before that, I used Claude.ai chat to plan the work and write the project brief, and Google to read the SendGrid docs myself. I set the direction, challenged the output with questions from my own experience, and approved each decision: segment-aware templates, impact.com's brand, scheduling outside SendGrid, a separate unsubscribe group.
 
 **What I verified.** I read the generated files, clicked through and stress-tested the output, and ran the SendGrid and Gmail checks myself. No SendGrid claim went in on the AI's word. Each one in the integration doc links to its source. SendGrid's docs don't say whether nested `equals` works, so I pasted T2 into SendGrid's editor and checked all three branches. Sixteen sandbox API calls, three real sends to my own inbox and a read of the raw headers covered the rest.
 

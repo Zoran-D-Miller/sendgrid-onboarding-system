@@ -2,7 +2,7 @@
 
 Three onboarding emails for impact.com's platform, sent through SendGrid when a user signs up. The second email changes by `account_type` and the third by `industry`. Built for the Growth Enablement Developer take-home.
 
-**Live preview:** [sendgrid-onboarding-system.vercel.app](https://sendgrid-onboarding-system.vercel.app) (change the signup and watch the real templates re-render) · **Walkthrough video:** TODO: add Loom URL
+**Live preview:** [sendgrid-onboarding-system.vercel.app](https://sendgrid-onboarding-system.vercel.app) (change the signup and watch the real templates re-render)
 
 ![T2 rendered for an enterprise account in the finance industry](docs/screenshots/t2-account-type--enterprise-finance--desktop.png)
 
@@ -15,7 +15,7 @@ Three onboarding emails for impact.com's platform, sent through SendGrid when a 
 | 3. QA checklist | [docs/QA_CHECKLIST.md](docs/QA_CHECKLIST.md) |
 | 4. AI reflection | [docs/AI_REFLECTION.md](docs/AI_REFLECTION.md) |
 | 5. Template 2 per account type, and a real API call | [docs/screenshots/](docs/screenshots/) and [docs/evidence/sandbox-run.md](docs/evidence/sandbox-run.md) |
-| 6. Walkthrough video | TODO: add Loom URL |
+| 6. Walkthrough video (optional) | Not recorded. The [live preview](https://sendgrid-onboarding-system.vercel.app) shows the same behaviour, and I'm happy to walk through it live. |
 
 ## What was tested
 
