@@ -6,6 +6,30 @@ Three onboarding emails for impact.com's platform, sent through SendGrid when a 
 
 ![T2 rendered for an enterprise account in the finance industry](docs/screenshots/t2-account-type--enterprise-finance--desktop.png)
 
+## Start here if you don't work in code
+
+You don't need a GitHub account or any setup. This takes about 5 minutes:
+
+1. **See the emails.** Open the [live preview](https://sendgrid-onboarding-system.vercel.app), pick an email, then change the account type or industry and watch it update.
+2. **See what testing found.** Read [What testing has caught so far](docs/QA_CHECKLIST.md#what-testing-has-caught-so-far).
+3. **See the plan for the team.** Read [What I'd do in week 1](#what-id-do-in-week-1).
+
+| Question | Answer |
+|---|---|
+| What happens when someone signs up? | They get three emails: a welcome straight away, one on day 2 matched to their account type, and one on day 5 matched to their industry. |
+| What if the signup data is wrong or blank? | They still get a sensible email. A missing first name becomes "Hi there", and an account type or industry we haven't planned for gets a general version. |
+| What can we report on? | Once the reporting feed is built: deliveries, opens, clicks and bounces for each email, split by account type and industry. Clicks are the main measure, because Apple Mail makes open counts look higher than they are. |
+| Can it go live today? | Not yet. The templates are built and tested, but the steps below need to happen first. |
+
+| Before launch | Who | Why |
+|---|---|---|
+| Authenticate the sending domain | Whoever manages impact.com's domain settings | My test emails landed in spam without this, so it blocks launch |
+| Build the signup connection, scheduler and reporting feed | Engineering | The [integration doc](docs/INTEGRATION.md) specifies them |
+| Test in Outlook and Apple Mail using Litmus | Email team | I've only checked Gmail in a real inbox |
+| Confirm the logo, images, links, case-study figures, footer address and sender addresses | Design and product | These are placeholders for now |
+
+The rest of this page is the technical detail.
+
 ## Deliverables
 
 | Brief | Where |
@@ -96,11 +120,11 @@ Roughly 2 to 3 hours of my own hands-on time, in 20 to 30 minute sprints across 
 
 ## What I'd do in week 1
 
-The interview made one problem clear: squads each building and sending their own emails, with no shared source. This repo is a small version of the fix. In week 1 I would:
+In the interview we talked about teams sending email independently, with no shared source. This repo is a small version of the fix. In week 1 I would:
 
 1. **List what exists.** Every transactional email each squad sends, where its template lives, and which unsubscribe group and sender it uses.
 2. **Move shared modules into one repo.** Header, footer and button components, plus the checks in `npm test`, so every squad starts from the same tested parts.
-3. **Make pull requests the way templates change.** CI runs the checks, a reviewer from our team approves, and deploys publish from git. That fits the GitHub rollout already underway.
+3. **Make pull requests the way templates change.** CI runs the checks, a reviewer from our team approves, and deploys publish from git.
 4. **Write a one-page "how to add an email" guide** and walk each squad through it in 30 minutes.
 5. **Share the numbers openly.** A weekly bounce, complaint and click view by template, posted where every squad can see it.
 
