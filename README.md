@@ -23,7 +23,7 @@ Three onboarding emails for impact.com's platform, sent through SendGrid when a 
 |---|---|
 | `npm test` (also runs in GitHub Actions on every push) | 95 checks pass: rendering, conditionals, escaping, links, accessibility basics, Gmail size limit, mapping, subjects |
 | Nested conditionals in SendGrid's own editor | All three T2 branches correct |
-| Real Mail Send API calls in sandbox mode | 17 calls: 9 of 9 sends valid, 6 of 8 error cases as expected, 2 sandbox gaps found and handled |
+| Real Mail Send API calls in sandbox mode | 16 calls plus one payload stopped by our own validation: 9 of 9 sends valid, 6 of 8 error cases as expected, 2 sandbox gaps found and handled |
 | Real sends to my own inbox | Delivered, rendered correctly in Gmail desktop and mobile, one-click unsubscribe headers present, group unsubscribe works. Spam placement traced to DMARC failing on a free-mail test sender. |
 
 Details and evidence are in the [QA checklist](docs/QA_CHECKLIST.md).
@@ -82,17 +82,17 @@ I emailed clarifying questions on 30 October and hadn't had a reply when I start
 | Multi-stage series | Our own scheduler for T2 and T3 | SendGrid's `send_at` can't go more than 72 hours ahead, and T3 is on day 5. Our own queue also lets a deleted account cancel pending emails. |
 | Header and footer shared across emails | Shared partials plus a build step, and publishing from git | SendGrid has no partials. One footer file fixes every email, and template versions in SendGrid match git commits. |
 
-TODO(Zoran): one or two sentences on the call you're proudest of and why, in your own words.
+Two calls I'd defend hardest. I didn't stop at sandbox mode: real sends found the sender block and the DMARC spam issue, which sandbox can't show, and that made domain authentication a launch blocker. And publishing templates from git gives the team one source of truth, which answers the silo problem we discussed in the interview.
 
 ## Not done, and why
 
-- **Litmus across Outlook, Apple Mail and Yahoo.** I don't have a Litmus account; it's the first check in the go/no-go list.
+- **Litmus across Outlook, Apple Mail and Yahoo.** I used Litmus for this at Luno but don't have an account now, so it's a check in the go/no-go list.
 - **Domain authentication.** I didn't touch any real domain. The live test shows why it's a launch blocker: DMARC failed on the gmail.com test sender.
 - **The production service itself** (signup endpoint, queue, Event Webhook receiver). It's specified in the integration doc and its core mapping is real, tested code, but a working service needs impact.com's stack and infrastructure.
 
 ## Time
 
-About 3 to 4 hours, AI-assisted. The brief asked for 2 to 3. The extra time went on the real SendGrid tests, which turned up the findings in the QA checklist. If I had to fit 3 hours, I'd keep the templates, docs and checklist and drop the deploy and live-send scripts.
+Roughly 2 to 3 hours of my own hands-on time, in 20 to 30 minute sprints across the weekend, which is why the commit history spans two days. I didn't log it exactly. Most of it went on reviewing, testing and directing what the AI drafted. The deploy, sandbox and live-send scripts and the preview site go beyond the brief, and they only fit because AI did the first drafts. Without that, I'd keep the templates, docs and checklist and drop those first.
 
 ## What I'd do in week 1
 
@@ -104,7 +104,7 @@ The interview made one problem clear: squads each building and sending their own
 4. **Write a one-page "how to add an email" guide** and walk each squad through it in 30 minutes.
 5. **Share the numbers openly.** A weekly bounce, complaint and click view by template, posted where every squad can see it.
 
-TODO(Zoran): add a line from your own experience, e.g. how a shared component library or review step worked at Luno.
+This builds on my work at Luno, where I built Liquid templates that pulled content straight from the design and content teams' CSV files, so nobody had to paste it in by hand. We also used test sends, seed lists, peer review and Litmus before launch, and I'd build the same checks into this workflow.
 
 ## Repository
 

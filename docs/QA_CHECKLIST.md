@@ -19,7 +19,7 @@ Each layer catches something the one before it can't.
 |---|---|---|
 | 1. `npm test` (local + GitHub Actions) | Templates build, every template renders against every fixture, mapping and subjects are right, structural rules hold | 95 checks pass, CI green |
 | 2. SendGrid editor preview | SendGrid's own Handlebars engine renders the conditionals the same way | Nested `equals`: enterprise / startup / unknown all correct |
-| 3. Sandbox API calls | SendGrid accepts the exact request the service will send | 17 calls: 9 sends + 8 error cases ([evidence](evidence/sandbox-run.md)) |
+| 3. Sandbox API calls | SendGrid accepts the exact request the service will send | 16 calls (9 sends + 7 error cases), plus 1 bad payload stopped by our own validation ([evidence](evidence/sandbox-run.md)) |
 | 4. Live send to own inbox | Real render, real headers, real unsubscribe, real redirects | 3 emails to a Gmail inbox ([evidence](evidence/live-send.md)) |
 | 5. Litmus across clients | Rendering in Outlook, Apple Mail, Yahoo, Samsung and the rest | PRE-LAUNCH |
 | 6. Staging end-to-end | Signup webhook to service to SendGrid to Event Webhook to `email_events` | PRE-LAUNCH |

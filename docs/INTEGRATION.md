@@ -379,11 +379,11 @@ The `sends` table has a unique constraint on this key. On a duplicate signup web
 The mapping in section 4 is implemented in [src/service/build-mail.js](../src/service/build-mail.js). Two scripts ran it against a SendGrid account on 31 Oct 2026:
 
 - `npm run deploy` created the "Onboarding" unsubscribe group and published all three templates, each with its subject and an auto-generated plain-text part.
-- `npm run sandbox` sent every template with every fixture, plus eight error cases, through `POST /v3/mail/send` with `sandbox_mode` on. Full results and the exact request are in [docs/evidence/sandbox-run.md](evidence/sandbox-run.md).
+- `npm run sandbox` sent every template with every fixture, plus seven error cases, through `POST /v3/mail/send` with `sandbox_mode` on. An eighth bad payload was stopped by our own validation before any call. Full results and the exact request are in [docs/evidence/sandbox-run.md](evidence/sandbox-run.md).
 
 | Result | Detail |
 |---|---|
-| 9 of 9 real sends valid | Every template x fixture returned `200` (sandbox's version of `202`) |
+| 9 of 9 sandbox sends valid | Every template x fixture returned `200` (sandbox's version of `202`) |
 | 6 of 8 error cases as expected | Bad key `401`; unknown template, no recipients, 11 categories and `send_at` past 72 hours all `400`; missing email stopped by our own validation before any call |
 | 2 surprises | Sandbox accepted an **unverified `from` address** and a **number in `custom_args`** |
 
