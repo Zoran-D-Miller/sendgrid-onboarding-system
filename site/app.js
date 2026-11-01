@@ -22,11 +22,13 @@ const PRESET_LABELS = {
   "startup-retail": "Startup, retail",
   "edge-missing-and-unsafe": "Edge case",
 };
-const FIELDS = ["template", "account_type", "industry", "first_name", "company_name", "width"];
+const FIELDS = ["template", "account_type", "industry", "first_name", "company_name", "width", "theme"];
 
 const form = document.getElementById("controls");
 const frame = document.getElementById("email");
 let data;
+let shownTemplate;
+let keepScroll = 0;
 const compiled = {};
 
 function readState() {
@@ -35,11 +37,16 @@ function readState() {
 }
 
 // form.elements includes controls outside the <form> that use form="controls"
-// (the width toggle). Setting .value on a radio group checks the matching radio.
+// (the width toggle). Radios are checked one by one because setting .value on
+// a radio group doesn't select the Missing radio, whose value is "".
 function writeState(state) {
   for (const [k, v] of Object.entries(state)) {
     const el = form.elements.namedItem(k);
-    if (el) el.value = v;
+    if (el instanceof RadioNodeList) {
+      for (const radio of el) radio.checked = radio.value === v;
+    } else if (el) {
+      el.value = v;
+    }
   }
 }
 
@@ -48,10 +55,27 @@ function presetState(name) {
   return { account_type: p.account_type ?? "", industry: p.industry ?? "", first_name: p.first_name ?? "", company_name: p.company_name ?? "" };
 }
 
+function segmentLabel(field, value, known) {
+  if (known.includes(value)) return `Showing the ${value} block`;
+  // Same email either way, but custom_args differ: a value with no block yet
+  // is a segment to consider, a missing value is a gap in the webhook data.
+  return value ? `Default block: no ${value} version yet, reported as "${value}"` : `Default block: ${field} is missing, reported as "unknown"`;
+}
+
 function branchLabel(key, d) {
-  if (key === "t2_account_type") return ["enterprise", "startup"].includes(d.account_type) ? `Showing the ${d.account_type} block` : "Showing the default block (account type not recognised)";
-  if (key === "t3_industry") return ["finance", "retail"].includes(d.industry) ? `Showing the ${d.industry} block` : "Showing the default block (industry not recognised)";
+  if (key === "t2_account_type") return segmentLabel("account type", d.account_type, ["enterprise", "startup"]);
+  if (key === "t3_industry") return segmentLabel("industry", d.industry, ["finance", "retail"]);
   return "Same email for every segment";
+}
+
+// The email's dark styles sit behind prefers-color-scheme, which follows the
+// viewer's OS and can't be set from JavaScript. For this preview only, switch
+// that media query on or off so both versions can be seen on any machine.
+// The template itself is untouched: real emails follow the reader's setting.
+function withTheme(html, theme) {
+  return html
+    .replace("@media (prefers-color-scheme: dark)", theme === "dark" ? "@media all" : "@media not all")
+    .replaceAll('content="light dark"', `content="${theme}"`);
 }
 
 function render() {
@@ -88,17 +112,23 @@ function render() {
     2
   );
 
-  frame.style.width = `${state.width}px`;
-  frame.srcdoc = html;
+  // Keep the reader's place while they change data; a new email starts at the top.
+  keepScroll = t.key === shownTemplate ? frame.contentWindow.scrollY : 0;
+  shownTemplate = t.key;
 
-  const params = new URLSearchParams(Object.entries(state).filter(([, v]) => v !== ""));
-  history.replaceState(null, "", `?${params}`);
+  frame.style.width = `${state.width}px`;
+  frame.srcdoc = withTheme(html, state.theme);
+
+  // Blanks stay in the URL, otherwise a reload swaps Missing for the sample signup.
+  history.replaceState(null, "", `?${new URLSearchParams(state)}`);
 }
 
-// Size the frame to the email so the page scrolls, not the frame.
+// Side-by-side layout: the email scrolls inside the frame (height set in CSS).
+// Stacked layout: size the frame to the email so the page does the scrolling.
 frame.addEventListener("load", () => {
-  const doc = frame.contentDocument;
-  if (doc) frame.style.height = `${doc.documentElement.scrollHeight}px`;
+  const stacked = matchMedia("(max-width: 960px)").matches;
+  frame.style.height = stacked ? `${frame.contentDocument.documentElement.scrollHeight}px` : "";
+  frame.contentWindow.scrollTo(0, keepScroll);
 });
 
 async function init() {
@@ -122,7 +152,7 @@ async function init() {
   });
 
   const fromUrl = Object.fromEntries(new URLSearchParams(location.search));
-  writeState({ template: "t2_account_type", width: "600", ...presetState("enterprise-finance"), ...fromUrl });
+  writeState({ template: "t2_account_type", width: "640", theme: "light", ...presetState("enterprise-finance"), ...fromUrl });
   // Listen on the document: the width toggle sits outside the <form> element.
   document.addEventListener("input", (e) => {
     if (e.target.form === form) render();

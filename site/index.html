@@ -38,7 +38,7 @@
           <div class="pills">
             <label><input type="radio" name="account_type" value="enterprise"><span>Enterprise</span></label>
             <label><input type="radio" name="account_type" value="startup"><span>Startup</span></label>
-            <label><input type="radio" name="account_type" value="agency"><span>Other</span></label>
+            <label><input type="radio" name="account_type" value="agency"><span>Other (agency)</span></label>
             <label><input type="radio" name="account_type" value=""><span>Missing</span></label>
           </div>
         </fieldset>
@@ -48,7 +48,7 @@
           <div class="pills">
             <label><input type="radio" name="industry" value="finance"><span>Finance</span></label>
             <label><input type="radio" name="industry" value="retail"><span>Retail</span></label>
-            <label><input type="radio" name="industry" value="travel"><span>Other</span></label>
+            <label><input type="radio" name="industry" value="travel"><span>Other (travel)</span></label>
             <label><input type="radio" name="industry" value=""><span>Missing</span></label>
           </div>
         </fieldset>
@@ -76,14 +76,20 @@
 
         <div class="frame-tools">
           <p class="branch" id="branch"></p>
-          <div class="pills small" role="radiogroup" aria-label="Preview width">
-            <label><input type="radio" name="width" value="600" form="controls" checked><span>Desktop</span></label>
-            <label><input type="radio" name="width" value="375" form="controls"><span>Phone</span></label>
+          <div class="view-toggles">
+            <div class="pills small" role="radiogroup" aria-label="Preview width">
+              <label><input type="radio" name="width" value="640" form="controls" checked><span>Desktop</span></label>
+              <label><input type="radio" name="width" value="375" form="controls"><span>Phone</span></label>
+            </div>
+            <div class="pills small" role="radiogroup" aria-label="Reader's colour setting">
+              <label><input type="radio" name="theme" value="light" form="controls" checked><span>Light</span></label>
+              <label><input type="radio" name="theme" value="dark" form="controls"><span>Dark</span></label>
+            </div>
           </div>
         </div>
 
         <div class="stage">
-          <!-- sandbox without allow-scripts: the email can't run code; same-origin only so the frame can be sized to its content -->
+          <!-- sandbox without allow-scripts: the email can't run code; same-origin only so app.js can size the frame and keep its scroll position -->
           <iframe id="email" title="Rendered email" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
         </div>
         <noscript><p>This preview needs JavaScript. Static renders are in the <a href="https://github.com/Zoran-D-Miller/sendgrid-onboarding-system/tree/main/docs/screenshots">screenshots folder</a>.</p></noscript>
