@@ -27,3 +27,7 @@ previews/
 
 # Built preview site (npm run build:site)
 site-dist/
+
+# Personal notes (Loom script, submission note)
+LOOM_SCRIPT.md
+SUBMISSION_NOTE.md
